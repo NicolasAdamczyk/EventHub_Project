@@ -1,0 +1,14 @@
+# Environnement Python
+venv/
+__pycache__/
+
+# Base de données locale (on en créera une nouvelle sur le serveur)
+*.sqlite3
+
+# Environnements Node/React
+node_modules/
+dist/
+.env
+
+# Fichiers système
+.DS_Store
