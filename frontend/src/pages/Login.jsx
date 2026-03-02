@@ -17,7 +17,7 @@ export default function Login() {
 
     try {
       // 1. On envoie les identifiants à l'API Django
-      const response = await axios.post('http://127.0.0.1:8000/api/login/', {
+        const response = await axios.post('https://nicolasadamczyk.pythonanywhere.com/api/login/', {
         username: username,
         password: password
       });
