@@ -8,19 +8,19 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // On récupère les données pour faire nos statistiques
     const fetchSummary = async () => {
       try {
-        const eventsRes = await api.get('events/');
-        const participantsRes = await api.get('participants/');
-        
+        const [eventsRes, participantsRes] = await Promise.all([
+          api.get('events/'),
+          api.get('participants/')
+        ]);
         setStats({
           eventsCount: eventsRes.data.length,
           participantsCount: participantsRes.data.length
         });
         setLoading(false);
       } catch (err) {
-        console.error("Erreur de chargement des statistiques", err);
+        console.error(err);
         setLoading(false);
       }
     };
@@ -33,46 +33,39 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Dashboard EventHub</h1>
-        <button onClick={handleLogout} style={{ background: '#ff4d4d', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-          Se déconnecter
-        </button>
-      </div>
-
-      <p>Bienvenue dans la vue d'ensemble de votre application.</p>
-
-      {/* Section des statistiques */}
-      {loading ? (
-        <p>Calcul des statistiques en cours...</p>
-      ) : (
-        <div style={{ display: 'flex', gap: '20px', margin: '30px 0' }}>
-          <div style={{ background: '#e6f7ff', padding: '20px', borderRadius: '8px', flex: 1, textAlign: 'center' }}>
-            <h2>{stats.eventsCount}</h2>
-            <p>Événements créés</p>
-          </div>
-          <div style={{ background: '#f6ffed', padding: '20px', borderRadius: '8px', flex: 1, textAlign: 'center' }}>
-            <h2>{stats.participantsCount}</h2>
-            <p>Participants inscrits</p>
-          </div>
+    <main className="container">
+      <header className="page-header">
+        <div>
+          <h1>Vue d'ensemble</h1>
+          <p style={{ color: 'var(--text-muted)' }}>Bienvenue dans votre espace sécurisé EventHub.</p>
         </div>
-      )}
+        <button onClick={handleLogout} className="btn btn-danger">Se déconnecter</button>
+      </header>
 
-      {/* Menu de navigation */}
-      <h2>Navigation Rapide</h2>
-      <ul style={{ listStyleType: 'none', padding: 0, display: 'flex', gap: '15px' }}>
-        <li>
-          <Link to="/events" style={{ textDecoration: 'none', padding: '15px 30px', background: '#007bff', color: 'white', borderRadius: '5px', display: 'inline-block' }}>
-            Gérer les Événements
-          </Link>
-        </li>
-        <li>
-          <Link to="/participants" style={{ textDecoration: 'none', padding: '15px 30px', background: '#28a745', color: 'white', borderRadius: '5px', display: 'inline-block' }}>
-            Gérer les Participants
-          </Link>
-        </li>
-      </ul>
-    </div>
+      <section aria-label="Statistiques">
+        {loading ? (
+          <p>Calcul des statistiques en cours...</p>
+        ) : (
+          <div className="stats-grid">
+            <article className="stat-card">
+              <h2>{stats.eventsCount}</h2>
+              <p>Événements créés</p>
+            </article>
+            <article className="stat-card">
+              <h2>{stats.participantsCount}</h2>
+              <p>Participants inscrits</p>
+            </article>
+          </div>
+        )}
+      </section>
+
+      <nav aria-label="Navigation principale" style={{ marginTop: '2rem' }}>
+        <h2 style={{ marginBottom: '1rem' }}>Actions rapides</h2>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <Link to="/events" className="btn btn-primary">Gérer les Événements</Link>
+          <Link to="/participants" className="btn btn-primary" style={{ background: '#0ea5e9' }}>Gérer les Participants</Link>
+        </div>
+      </nav>
+    </main>
   );
 }
