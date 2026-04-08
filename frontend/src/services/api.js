@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // On crée une instance d'Axios préconfigurée avec l'adresse de notre API Django
 const api = axios.create({
-  baseURL: 'https://nicolasadamczyk.pythonanywhere.com/api/',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // On ajoute un "intercepteur" : avant chaque requête, on glisse le token dans l'en-tête
