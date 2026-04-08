@@ -72,7 +72,7 @@ export default function Dashboard() {
           <div className="dashboard-header-title">
             <h1>Dashboard</h1>
             <span className={`badge ${isAdmin ? 'badge-admin' : 'badge-viewer'}`}>
-              {isAdmin ? '🛡️ ADMINISTRATOR' : '👁️ VIEWER'}
+              {isAdmin ? 'ADMINISTRATOR' : 'VIEWER'}
             </span>
           </div>
           <p className="text-muted">Overview of your EventHub ecosystem.</p>

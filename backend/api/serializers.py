@@ -5,15 +5,16 @@ from django.utils import timezone
 class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
-        fields = '__all__'  # On veut exposer tous les champs (id, prénom, nom, email)
+        # Expose all fields: id, first_name, last_name, and email
+        fields = '__all__'
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'  # Expose id, title, description, date, status
+        fields = '__all__'
         
     def validate_date(self, value):
-        # Si la date envoyée est plus petite que la date actuelle
+        # Prevent creating or updating events with a past date
         if value < timezone.now():
             raise serializers.ValidationError("The date of the event cannot be in the past.")
         return value
@@ -21,4 +22,5 @@ class EventSerializer(serializers.ModelSerializer):
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Registration
-        fields = '__all__'  # Expose id, event, participant, registration_date
+        # Expose relationship fields and registration timestamp
+        fields = '__all__'

@@ -15,16 +15,13 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-#)hsn+25*hg+45guzlqk9e36m$hizchozj%19ul7rnl#awii4^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
+# Domains allowed to access this server
 ALLOWED_HOSTS = ['NicolasAdamczyk.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
@@ -38,10 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    # Les ajouts commencent ici, on dit à Django que nous allons utiliser l'application REST framework et notre application API
+    # REST Framework and Authentication
     'rest_framework',
-    'rest_framework.authtoken', # Ajout des Tokens
-    'drf_spectacular', # Ajout de drf-spectacular pour la documentation
+    'rest_framework.authtoken',
+    # Documentation tool
+    'drf_spectacular',
+    # Local API application
     'api',
 ]
 
@@ -53,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # CORS middleware for cross-origin requests
     'corsheaders.middleware.CorsMiddleware',
 ]
 
@@ -76,9 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,8 +86,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -106,41 +102,37 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+# Localization
+LANGUAGE_CODE = 'fr-fr'
+TIME_ZONE = 'Europe/Paris'
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
 STATIC_URL = 'static/'
 
-# Configuration pour la sécurité par défaut de DRF
+# Django REST Framework global settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication', # Pratique pour tester dans le navigateur
+        'rest_framework.authentication.SessionAuthentication',
     ],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema', # Pour la documentation automatique
+    # Automatic OpenAPI schema generation
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+# Documentation metadata
 SPECTACULAR_SETTINGS = {
     'TITLE': 'EventHub API',
-    'DESCRIPTION': 'Documentation de l\'API pour la gestion des événements et participants.',
+    'DESCRIPTION': 'API Documentation for events and participants management.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
+# Authorized frontend origins for CORS
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://event-hub-project-five.vercel.app", # Application finale déployée sur Vercel
+    "https://event-hub-project-five.vercel.app",
 ]
