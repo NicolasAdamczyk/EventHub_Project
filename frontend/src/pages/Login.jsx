@@ -7,7 +7,7 @@ export default function Login() {
   
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // Nouveau state
+  const [confirmPassword, setConfirmPassword] = useState(''); 
   
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
@@ -32,8 +32,6 @@ export default function Login() {
       }
     } else {
       // ---------------- MODE INSCRIPTION ----------------
-      
-      // Vérification locale du mot de passe
       if (password !== confirmPassword) {
         setError("Passwords do not match!");
         return;
@@ -47,7 +45,7 @@ export default function Login() {
         setSuccessMsg('Account created successfully! You can now log in.');
         setIsLoginMode(true); 
         setPassword('');
-        setConfirmPassword(''); // On reset aussi le confirm
+        setConfirmPassword(''); 
       } catch (err) {
         setError(err.response?.data?.error || 'An error occurred during registration.');
       }
@@ -64,8 +62,9 @@ export default function Login() {
           </p>
         </header>
         
-        {error && <p className="error-text mb-2" style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
-        {successMsg && <p className="mb-2" style={{ color: 'green', textAlign: 'center' }}>{successMsg}</p>}
+        {/* Classes CSS propres pour les messages */}
+        {error && <p className="error-text error-text-center mb-2">{error}</p>}
+        {successMsg && <p className="success-text-center mb-2">{successMsg}</p>}
         
         <form onSubmit={handleSubmit} className="form-group">
           <input 
@@ -85,33 +84,33 @@ export default function Login() {
             required
           />
 
-          {/* 👇 CHAMP AFFICHÉ UNIQUEMENT EN MODE SIGNUP 👇 */}
-          {!isLoginMode && (
+          {/* Wrapper animé pour la transition du Confirm Password */}
+          <div className={`confirm-password-wrapper ${isLoginMode ? 'hidden' : 'visible'}`}>
             <input 
               type="password" 
               className="input-field"
               placeholder="Confirm Password" 
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              required
+              required={!isLoginMode} // Le champ n'est requis qu'en mode signup
             />
-          )}
+          </div>
 
           <button type="submit" className="btn btn-primary">
             {isLoginMode ? 'Log In' : 'Sign Up'}
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+        <div className="toggle-mode-wrapper">
           <button 
             type="button" 
+            className="toggle-mode-btn"
             onClick={() => {
               setIsLoginMode(!isLoginMode);
               setError('');
               setSuccessMsg('');
-              setConfirmPassword(''); // On vide le champ si on change de mode
+              setConfirmPassword(''); 
             }}
-            style={{ background: 'none', border: 'none', color: '#007bff', textDecoration: 'underline', cursor: 'pointer' }}
           >
             {isLoginMode ? "Don't have an account? Sign up" : "Already have an account? Log in"}
           </button>

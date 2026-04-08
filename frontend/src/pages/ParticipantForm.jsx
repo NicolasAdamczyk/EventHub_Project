@@ -70,7 +70,7 @@ export default function ParticipantForm() {
   return (
     <main className="container">
       <div className="back-link">
-        <Link to="/participants">← Back to directory</Link>
+        <Link to="/participants">Back to directory</Link>
       </div>
 
       <header className="page-header">
@@ -83,7 +83,8 @@ export default function ParticipantForm() {
       </header>
 
       <article className="card">
-        {error && <p className="error-text mb-2">{error}</p>}
+        {/* Ajout de error-text-center pour la cohérence visuelle */}
+        {error && <p className="error-text error-text-center mb-2">{error}</p>}
 
         <form onSubmit={handleSubmit} className="form-group">
           <div>

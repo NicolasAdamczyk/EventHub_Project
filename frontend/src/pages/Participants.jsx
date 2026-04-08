@@ -7,7 +7,6 @@ export default function Participants() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // 👇 1. AJOUTE CE NOUVEAU STATE POUR LA RECHERCHE
   const [searchTerm, setSearchTerm] = useState('');
 
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -37,8 +36,6 @@ export default function Participants() {
     }
   };
 
-  // 👇 2. LOGIQUE DE FILTRAGE
-  // On crée une liste filtrée basée sur le nom, prénom ou email
   const filteredParticipants = participants.filter(p => {
     const search = searchTerm.toLowerCase();
     return (
@@ -55,16 +52,16 @@ export default function Participants() {
       <header className="page-header">
         <div>
           <h1>Participants Directory</h1>
-          <Link to="/dashboard" className="text-muted">← Back to Dashboard</Link>
+          <Link to="/dashboard" className="text-muted">Back to Dashboard</Link>
         </div>
         {isAdmin && (
-          <Link to="/participants/new" className="btn btn-primary">+ Add Participant</Link>
+          <Link to="/participants/new" className="btn btn-primary">Add Participant</Link>
         )}
       </header>
 
-      {/* 👇 3. AJOUTE LA BARRE DE RECHERCHE ICI 👇 */}
+      {/* Barre de recherche avec des classes propres */}
       <section className="filter-bar">
-        <div className="search-container" style={{ width: '100%', maxWidth: '400px' }}>
+        <div className="participant-search-wrapper">
           <input
             type="text"
             className="input-field"
@@ -76,15 +73,15 @@ export default function Participants() {
       </section>
 
       <section aria-label="Participants grid">
-        {/* 👇 4. ON UTILISE filteredParticipants AU LIEU DE participants 👇 */}
         {filteredParticipants.length === 0 ? (
           <p className="text-center py-2">No participants found matching your search.</p>
         ) : (
           <ul className="grid">
             {filteredParticipants.map(participant => (
               <li key={participant.id}>
-                <article className="card participant-card" style={{ justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                {/* On réutilise la classe participant-card-flex d'EventDetails */}
+                <article className="card participant-card participant-card-flex">
+                  <div className="participant-info-flex">
                     <div className="avatar">
                       {participant.first_name.charAt(0)}{participant.last_name.charAt(0)}
                     </div>
@@ -95,18 +92,16 @@ export default function Participants() {
                   </div>
                   
                   {isAdmin && (
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div className="participant-actions">
                       <Link 
                         to={`/participants/edit/${participant.id}`} 
-                        className="btn btn-secondary"
-                        style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                        className="btn btn-secondary btn-sm"
                       >
                         Edit
                       </Link>
                       <button 
                         onClick={() => handleDelete(participant.id)} 
-                        className="btn btn-danger"
-                        style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+                        className="btn btn-danger btn-sm"
                       >
                         Delete
                       </button>

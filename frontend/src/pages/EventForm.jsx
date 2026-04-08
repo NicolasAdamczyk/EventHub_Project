@@ -103,7 +103,7 @@ export default function EventForm() {
   return (
     <main className="container">
       <div className="back-link">
-        <Link to="/events">← Back to events</Link>
+        <Link to="/events">Back to events</Link>
       </div>
 
       <header className="page-header">
@@ -116,7 +116,8 @@ export default function EventForm() {
       </header>
 
       <article className="card">
-        {error && <p className="error-text mb-2" style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+        {/* Remplacement du style en ligne par la classe error-text-center */}
+        {error && <p className="error-text error-text-center mb-2">{error}</p>}
 
         <form onSubmit={handleSubmit} className="form-group">
           <div>
@@ -145,8 +146,6 @@ export default function EventForm() {
               required
             />
           </div>
-
-          {/* LE SELECTEUR DE STATUT A ÉTÉ SUPPRIMÉ ICI */}
 
           <div>
             <label htmlFor="description" className="font-medium">Description</label>

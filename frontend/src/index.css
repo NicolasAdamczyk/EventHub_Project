@@ -16,7 +16,6 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-
 /* ==========================================================================
    2. RESET & BASE SEMANTICS
    ========================================================================== */
@@ -48,7 +47,6 @@ ul {
   list-style: none;
 }
 
-
 /* ==========================================================================
    3. GLOBAL LAYOUT (CONTAINERS)
    ========================================================================== */
@@ -67,19 +65,22 @@ ul {
   gap: 1rem;
 }
 
-/* Responsive Grids */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
+.back-link {
+  display: block;
+  margin-bottom: 1.5rem;
+}
 
 /* ==========================================================================
    4. GENERIC UI COMPONENTS
    ========================================================================== */
 
-/* Cards */
+/* --- Cards --- */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -93,16 +94,34 @@ ul {
   transform: translateY(-2px);
 }
 
-/* Buttons */
+.empty-state {
+  background: transparent;
+  border: 2px dashed var(--border-color);
+  color: var(--text-muted);
+}
+
+/* --- Buttons --- */
 .btn {
   display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  font-weight: 500;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px; 
+  font-weight: 600; 
   cursor: pointer;
   border: none;
-  transition: background 0.2s;
   text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97); 
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary {
@@ -113,7 +132,6 @@ ul {
 .btn-primary:hover {
   background: var(--primary-hover);
   color: white;
-  text-decoration: none;
 }
 
 .btn-secondary {
@@ -124,7 +142,6 @@ ul {
 .btn-secondary:hover {
   background-color: #0284c7;
   color: white;
-  text-decoration: none;
 }
 
 .btn-danger {
@@ -134,9 +151,16 @@ ul {
 
 .btn-danger:hover {
   background: var(--danger-hover);
+  color: white;
 }
 
-/* Forms & Inputs */
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+/* --- Forms & Inputs --- */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -157,7 +181,7 @@ ul {
   border-color: var(--primary);
 }
 
-/* Badges & Filters */
+/* --- Badges & Filters --- */
 .badge {
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
@@ -177,14 +201,14 @@ ul {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
-
 
 /* ==========================================================================
    5. PAGE-SPECIFIC STYLES
    ========================================================================== */
 
-/* --- Page: Login --- */
+/* --- 5.1 Page: Login & Signup --- */
 .login-container {
   max-width: 450px;
   margin: 10vh auto 0 auto;
@@ -195,15 +219,69 @@ ul {
   margin-bottom: 1.5rem;
 }
 
-.error-message {
-  color: var(--danger);
-  margin-bottom: 1rem;
-  text-align: center;
+.confirm-password-wrapper {
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- Page: Dashboard --- */
+.confirm-password-wrapper.hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+}
+
+.confirm-password-wrapper.visible {
+  max-height: 60px;
+  opacity: 1;
+  margin-bottom: 1rem;
+}
+
+.toggle-mode-wrapper {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.toggle-mode-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.toggle-mode-btn:hover {
+  color: #0056b3;
+}
+
+/* --- 5.2 Page: Dashboard --- */
 .dashboard-nav {
   margin-top: 2rem;
+}
+
+.dashboard-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-admin {
+  background-color: #ffd700;
+  color: #333;
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 4px 8px;
+}
+
+.badge-viewer {
+  background-color: #e0e0e0;
+  color: #333;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 8px;
 }
 
 .stats-grid {
@@ -216,19 +294,109 @@ ul {
 .stat-card {
   text-align: center;
   padding: 2rem;
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  border-top: 4px solid var(--primary);
+  background: var(--bg-card, #ffffff);
+  border-radius: var(--radius, 8px);
+  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,0.05));
+  border-top: 4px solid var(--primary, #007bff);
 }
 
 .stat-card h2 {
   font-size: 2.5rem;
-  color: var(--primary);
+  color: var(--primary, #007bff);
   margin-bottom: 0.5rem;
 }
 
-/* --- Page: Events List --- */
+.dashboard-main-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.upcoming-list {
+  list-style: none;
+  padding: 0;
+}
+
+.upcoming-list-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.upcoming-list-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.upcoming-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upcoming-item-date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.dashboard-view-all-btn {
+  margin-top: 1rem;
+  display: block;
+  text-align: center;
+}
+
+.quick-actions-container {
+  flex-direction: column;
+}
+
+.btn-action-block {
+  text-align: center;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.btn-outline {
+  border: 1px solid #007bff;
+  color: #007bff;
+  padding: 10px;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.btn-outline-dashed {
+  border: 2px dashed var(--primary); 
+  color: var(--primary);
+  background-color: rgba(79, 70, 229, 0); 
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-outline-dashed:hover {
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.btn-outline-dashed:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.system-tip-card {
+  background-color: #f8f9fa;
+}
+
+.system-tip-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.system-tip-text {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* --- 5.3 Page: Events List --- */
 .event-card-content {
   display: flex;
   flex-direction: column;
@@ -240,12 +408,18 @@ ul {
   font-size: 1.25rem;
 }
 
-/* --- Page: Event Details --- */
-.back-link {
-  display: block;
-  margin-bottom: 1.5rem;
+.search-input-wrapper {
+  flex: 1;
+  min-width: 250px;
 }
 
+.status-filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* --- 5.4 Page: Event Details --- */
 .event-header {
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 1rem;
@@ -263,14 +437,138 @@ ul {
   white-space: pre-line;
 }
 
-.empty-state {
-  background: transparent;
-  border: 2px dashed var(--border-color);
-  color: var(--text-muted);
+.event-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-/* --- Page: Participants Directory --- */
+.btn-completed {
+  background-color: #28a745;
+  border: none;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-completed:hover {
+  background-color: #218838;
+}
+
+.btn-completed:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.live-search-wrapper {
+  position: relative;
+}
+
+.live-search-input {
+  margin-bottom: 0.5rem;
+}
+
+.live-search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 100;
+  padding: 0.5rem;
+}
+
+.live-search-empty {
+  font-size: 0.9rem;
+  padding: 1rem;
+}
+
+.live-search-info {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.2rem;
+}
+
+.live-search-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.live-search-item {
+  margin-bottom: 0.3rem;
+}
+
+.live-search-btn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid transparent;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.1s ease;
+}
+
+.live-search-btn:hover {
+  background-color: #f0f7ff;
+}
+
+.live-search-name {
+  display: block;
+}
+
+.live-search-email {
+  font-size: 0.8rem;
+}
+
+.live-search-add {
+  font-size: 0.8rem;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.participants-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.participants-title {
+  margin: 0;
+}
+
+.participants-search-input {
+  max-width: 300px;
+  margin: 0;
+}
+
+/* --- 5.5 Page: Participants Directory --- */
 .participant-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.participant-card-flex {
+  justify-content: space-between;
+}
+
+.participant-info-flex {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -299,26 +597,48 @@ ul {
   font-size: 0.85rem;
 }
 
+.participant-search-wrapper {
+  width: 100%;
+  max-width: 400px;
+}
+
+.participant-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-remove-participant {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
 
 /* ==========================================================================
    6. UTILITIES (HELPERS)
    ========================================================================== */
 .text-muted { color: var(--text-muted); }
 .text-center { text-align: center; }
-.error-text { color: var(--danger); }
 
+/* Status Text Messages */
+.error-message,
+.error-text { color: var(--danger); }
+.error-text-center { color: #dc3545; text-align: center; }
+.success-text-center { color: #28a745; text-align: center; }
+
+/* Margins & Paddings */
+.mt-1 { margin-top: 0.5rem; }
 .mb-1 { margin-bottom: 0.5rem; }
 .mb-2 { margin-bottom: 1rem; }
 .mb-3 { margin-bottom: 1.5rem; }
 .mb-4 { margin-bottom: 2rem; }
-
 .p-1 { padding: 1rem; }
 .mt-auto { margin-top: auto; }
-.w-auto { width: auto; }
 
+/* Layout Utilities */
+.w-auto { width: auto; }
 .section-title { margin-bottom: 1rem; }
 .flex-gap { display: flex; gap: 1rem; flex-wrap: wrap; }
 
+/* Typography */
 .font-sm { font-size: 0.9rem; }
 .font-md { font-size: 1.1rem; }
 .font-medium { font-weight: 500; }

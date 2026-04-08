@@ -5,8 +5,6 @@ import api from '../services/api';
 export default function Events() {
   const [events, setEvents] = useState([]);
   const [statusFilter, setStatusFilter] = useState('');
-  
-  // 👇 1. AJOUTE LE STATE POUR LA RECHERCHE
   const [searchTerm, setSearchTerm] = useState('');
   
   const [loading, setLoading] = useState(true);
@@ -39,7 +37,6 @@ export default function Events() {
     }
   };
 
-  // 👇 2. LOGIQUE DE FILTRAGE COMBINÉE (Status + Recherche)
   const filteredEvents = events.filter(event => {
     const matchesStatus = statusFilter === '' || event.status === statusFilter;
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -48,21 +45,31 @@ export default function Events() {
 
   if (loading) return <main className="container"><p>Loading events...</p></main>;
 
+  // Petit traducteur visuel
+  const formatStatus = (statusKey) => {
+    const statusMap = {
+      'upcoming': 'Upcoming',
+      'in_progress': 'In Progress',
+      'completed': 'Finished'
+    };
+    return statusMap[statusKey] || statusKey;
+  };
+
   return (
     <main className="container">
       <header className="page-header">
         <div>
           <h1>Events List</h1>
-          <Link to="/dashboard" className="text-muted">← Back to Dashboard</Link>
+          <Link to="/dashboard" className="text-muted">Back to Dashboard</Link>
         </div>
         {isAdmin && (
-          <Link to="/events/new" className="btn btn-primary">+ Create Event</Link>
+          <Link to="/events/new" className="btn btn-primary">Create Event</Link>
         )}
       </header>
       
-      {/* 👇 3. BARRE DE RECHERCHE ET FILTRE CÔTE À CÔTE 👇 */}
-      <section className="filter-bar" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-        <div style={{ flex: '1', minWidth: '250px' }}>
+      {/* Remplacement des styles en ligne par des classes CSS */}
+      <section className="filter-bar">
+        <div className="search-input-wrapper">
           <input
             type="text"
             className="input-field"
@@ -72,7 +79,7 @@ export default function Events() {
           />
         </div>
         
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <div className="status-filter-wrapper">
           <label htmlFor="status-filter" className="font-medium">Status:</label>
           <select 
             id="status-filter" 
@@ -83,7 +90,7 @@ export default function Events() {
             <option value="">All Status</option>
             <option value="upcoming">Upcoming</option>
             <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
+            <option value="completed">Finished</option>
           </select>
         </div>
       </section>
@@ -101,7 +108,7 @@ export default function Events() {
                     📅 {new Date(event.date).toLocaleDateString()}
                   </p>
                   <p className="mb-3">
-                    <span className="badge">{event.status}</span>
+                    <span className="badge">{formatStatus(event.status)}</span>
                   </p>
                   
                   <div className="flex-gap mt-auto">
